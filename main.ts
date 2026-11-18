@@ -11,7 +11,7 @@
 //
 // Costs per full-size round trip are roughly 26 bps (4 bps fee + 2 bps
 // slippage + ~10 bps of pool impact each way), so the entry bar (1.2% dip)
-// and the exit bar (+1.0% bounce) are set far above that.
+// and the exit bar (+2.0% bounce) are set far above that.
 
 import { runBars } from "./vendor/makefun-bars.ts";
 import type { BarsState, Batch, OrderInput } from "./vendor/makefun-bars.ts";
@@ -23,7 +23,9 @@ const LOOKBACK_BARS = 120; // 2h high the dip is measured against
 const DROP = 0.012; // buy only 1.2% or more below that high
 const RECENT_LOW_BARS = 15; // window for the "has it stopped falling" check
 const RECOVERY = 0.003; // ... and 0.3% recovered off that low
-const TAKE_PROFIT = 0.01; // sell at +1.0% from the fill price
+const TAKE_PROFIT = 0.02; // sell at +2.0% from the fill price: the dev window's
+// winning dip-bounce ran to about +2.2% before fading, so a 1.0% target was
+// leaving half the move on the table; 2.0% keeps clear headroom below that peak
 const STOP_LOSS = 0.012; // sell at -1.2% from the fill price
 const EXIT_AFTER_BARS = 1400; // stop entering, exit if held, near the end
 const MAX_SLIPPAGE_BPS = 150; // 1.5% — a 1-minute gap that big never happens here
